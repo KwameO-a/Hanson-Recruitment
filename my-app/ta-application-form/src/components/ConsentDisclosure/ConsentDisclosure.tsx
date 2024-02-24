@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Typography, TextField, Button, Checkbox, FormControlLabel } from '@mui/material';
+import { Typography, TextField, Button, Checkbox, FormControlLabel, Box, useMediaQuery } from '@mui/material';
 
 interface ConsentDisclosureFormProps {
   onNext: () => void;
@@ -10,13 +10,31 @@ interface ConsentDisclosureFormProps {
 const ConsentDisclosureForm: React.FC<ConsentDisclosureFormProps> = ({ onNext, onPrev }) => {
   const [consentGiven, setConsentGiven] = useState(false);
   const [date, setDate] = useState('');
+  const isNonMobileScreens = useMediaQuery("(min-width: 600px)");
+
 
   const isNextDisabled = () => {
     return !consentGiven || !date;
   };
 
   return (
-    <form>
+    <Box>
+    <Box
+      p="1rem 6%"
+      textAlign="center"
+    >
+      <Typography fontWeight="bold" fontSize="32px" color="primary">
+      Consent to Disclose Information Relating to Disability, Health or Pregnancy
+      </Typography>
+    </Box>
+
+    <Box
+      width={isNonMobileScreens ? "50%" : "93%"}
+      p="1rem"
+      m="1rem auto"
+      borderRadius="1.5rem"
+    >
+       <form>
       <Typography variant="h5" component="h2" gutterBottom style={{ fontWeight: 'bold' }}>
       Consent to Disclose Information Relating to Disability, Health or Pregnancy
             </Typography>
@@ -87,6 +105,9 @@ const ConsentDisclosureForm: React.FC<ConsentDisclosureFormProps> = ({ onNext, o
         Next
       </Button>
     </form>
+    </Box>
+  </Box>
+   
   );
 };
 

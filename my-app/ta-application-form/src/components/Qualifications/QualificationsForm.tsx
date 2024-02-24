@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TextField, Button, Typography, FormControlLabel, Checkbox, MenuItem} from '@mui/material';
+import { TextField, Button, Typography, FormControlLabel, Checkbox, MenuItem, Box, useMediaQuery} from '@mui/material';
 import PhoneInput from 'react-phone-number-input';
 import 'react-phone-number-input/style.css';
 
@@ -22,6 +22,7 @@ const QualificationsForm: React.FC<QualificationsFormProps> = ({ onNext, onPrev 
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [email, setEmail] = useState('');
+  const isNonMobileScreens = useMediaQuery("(min-width: 600px)");
 
 
   // Assume additional fields as needed based on the PDF content
@@ -37,7 +38,23 @@ const QualificationsForm: React.FC<QualificationsFormProps> = ({ onNext, onPrev 
   };
   
   return (
-    <form>
+    <Box>
+    <Box
+      p="1rem 6%"
+      textAlign="center"
+    >
+      <Typography fontWeight="bold" fontSize="32px" color="primary">
+      Highest Level of Qualification
+      </Typography>
+    </Box>
+
+    <Box
+      width={isNonMobileScreens ? "50%" : "93%"}
+      p="1rem"
+      m="1rem auto"
+      borderRadius="1.5rem"
+    >
+       <form>
         <Typography variant="body1" gutterBottom>
         Hanson Recruitment checks that candidates (if applicable) are registered with the National
 College for Teaching & leadership (NCTL), whether any restrictions are in place and whether they
@@ -143,6 +160,9 @@ with the EWC
         Next
       </Button>
     </form>
+    </Box>
+  </Box>
+ 
   );
 };
 

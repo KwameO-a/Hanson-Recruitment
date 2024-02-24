@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, TextField, Typography, Button } from '@mui/material';
+import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, TextField, Typography, Button, Box, useMediaQuery } from '@mui/material';
 
 interface Answers {
   [key: string]: string;
@@ -12,6 +12,7 @@ interface QuestionnaireFormProps {
 
 const QuestionnaireForm: React.FC<QuestionnaireFormProps> = ({ onNext, onPrev }) => {
   const [answers, setAnswers] = useState<Answers>({});
+  const isNonMobileScreens = useMediaQuery("(min-width: 600px)");
 
   const handleRadioChange = (questionNumber: string, value: string) => {
     setAnswers({ ...answers, [questionNumber]: value });
@@ -26,7 +27,7 @@ const QuestionnaireForm: React.FC<QuestionnaireFormProps> = ({ onNext, onPrev })
       return (
         <TextField
           fullWidth
-          label={`Please provide details for question ${questionNumber}`}
+          label={`If yes, please provide details here`}
           margin="normal"
           variant="outlined"
           value={answers[`${questionNumber}_detail`] || ''}
@@ -45,7 +46,23 @@ const QuestionnaireForm: React.FC<QuestionnaireFormProps> = ({ onNext, onPrev })
   };
 
   return (
-    <form>
+    <Box>
+    <Box
+      p="1rem 6%"
+      textAlign="center"
+    >
+      <Typography fontWeight="bold" fontSize="32px" color="primary">
+      Highest Level of Qualification
+      </Typography>
+    </Box>
+
+    <Box
+      width={isNonMobileScreens ? "50%" : "93%"}
+      p="1rem"
+      m="1rem auto"
+      borderRadius="1.5rem"
+    >
+      <form>
       <Typography variant="h6" gutterBottom>
         Safeguarding and Background Information
       </Typography>
@@ -69,131 +86,273 @@ const QuestionnaireForm: React.FC<QuestionnaireFormProps> = ({ onNext, onPrev })
         >
           <FormControlLabel value="yes" control={<Radio />} label="Yes" />
           <FormControlLabel value="no" control={<Radio />} label="No" />
-          <FormControlLabel value="not_applicable" control={<Radio />} label="Not applicable" />
 
         </RadioGroup>
         {renderConditionalTextField('question1')}
       </FormControl>
       <FormControl component="fieldset" margin="normal">
-        <FormLabel component="legend">1. Do you have any convictions or adult cautions that are unspent?</FormLabel>
+        <FormLabel component="legend">2. Do you have any other cautions or convictions that would not be filtered?</FormLabel>
         <RadioGroup
           row
-          name="question1"
-          onChange={(e) => handleRadioChange('question1', e.target.value)}
+          name="question2"
+          onChange={(e) => handleRadioChange('question2', e.target.value)}
         >
           <FormControlLabel value="yes" control={<Radio />} label="Yes" />
           <FormControlLabel value="no" control={<Radio />} label="No" />
         </RadioGroup>
-        {renderConditionalTextField('question1')}
+        {renderConditionalTextField('question2')}
       </FormControl>
       <FormControl component="fieldset" margin="normal">
-        <FormLabel component="legend">1. Do you have any convictions or adult cautions that are unspent?</FormLabel>
+        <FormLabel component="legend">3. Are you included on the DBS children’s barred list?</FormLabel>
         <RadioGroup
           row
-          name="question1"
-          onChange={(e) => handleRadioChange('question1', e.target.value)}
+          name="question3"
+          onChange={(e) => handleRadioChange('question3', e.target.value)}
           
         >
           <FormControlLabel value="yes" control={<Radio />} label="Yes" />
           <FormControlLabel value="no" control={<Radio />} label="No" />
         </RadioGroup>
-        {renderConditionalTextField('question1')}
+        {renderConditionalTextField('question3')}
       </FormControl>
       <FormControl component="fieldset" margin="normal">
-        <FormLabel component="legend">1. Do you have any convictions or adult cautions that are unspent?</FormLabel>
+        <FormLabel component="legend">4. (Teaching posts only) Are you, or have you ever been, prohibited from teaching
+by the TRA or sanctioned by the GTCE?</FormLabel>
         <RadioGroup
           row
-          name="question1"
-          onChange={(e) => handleRadioChange('question1', e.target.value)}
+          name="question4"
+          onChange={(e) => handleRadioChange('question4', e.target.value)}
+        >
+          <FormControlLabel value="yes" control={<Radio />} label="Yes" />
+          <FormControlLabel value="no" control={<Radio />} label="No" />
+          <FormControlLabel value="not_applicable" control={<Radio />} label="Not applicable" />
+        </RadioGroup>
+        {renderConditionalTextField('question4')}
+      </FormControl>
+      <FormControl component="fieldset" margin="normal">
+        <FormLabel component="legend">5. Have you been prohibited from management of an independent school (s128)?</FormLabel>
+        <RadioGroup
+          row
+          name="question5"
+          onChange={(e) => handleRadioChange('question5', e.target.value)}
+        >
+          <FormControlLabel value="yes" control={<Radio />} label="Yes" />
+          <FormControlLabel value="no" control={<Radio />} label="No" />
+          <FormControlLabel value="not_applicable" control={<Radio />} label="Not applicable" />
+        </RadioGroup>
+        {renderConditionalTextField('question5')}
+      </FormControl>
+      <FormControl component="fieldset" margin="normal">
+        <FormLabel component="legend">6.Have you lived or worked outside the UK for more than 3 months in the last 5 years?</FormLabel>
+        <RadioGroup
+          row
+          name="question6"
+          onChange={(e) => handleRadioChange('question6', e.target.value)}
         >
           <FormControlLabel value="yes" control={<Radio />} label="Yes" />
           <FormControlLabel value="no" control={<Radio />} label="No" />
         </RadioGroup>
-        {renderConditionalTextField('question1')}
+        {renderConditionalTextField('question6')}
       </FormControl>
       <FormControl component="fieldset" margin="normal">
-        <FormLabel component="legend">1. Do you have any convictions or adult cautions that are unspent?</FormLabel>
+        <FormLabel component="legend">7. Are you subject to any sanctions relating to work with children in any country outside the UK?</FormLabel>
         <RadioGroup
           row
-          name="question1"
-          onChange={(e) => handleRadioChange('question1', e.target.value)}
+          name="question7"
+          onChange={(e) => handleRadioChange('question7', e.target.value)}
         >
           <FormControlLabel value="yes" control={<Radio />} label="Yes" />
           <FormControlLabel value="no" control={<Radio />} label="No" />
         </RadioGroup>
-        {renderConditionalTextField('question1')}
+        {renderConditionalTextField('question7')}
       </FormControl>
       <FormControl component="fieldset" margin="normal">
-        <FormLabel component="legend">1. Do you have any convictions or adult cautions that are unspent?</FormLabel>
+        <FormLabel component="legend">8. The Disqualification under the Childcare Act 2006 Regulations (2018) state that
+        anyone employed to care for children in early years (children under the age of 5)
+        or later years (wrap-around care for children under the age of 8) is disqualified
+        from that work if they meet certain criteria. These criteria include (this is not an
+        exhaustive list):
+        Certain serious criminal offences
+        Court orders relating to the care of your own child
+        Being prohibited from private fostering
+        Do you have any reason to believe you are disqualified from working in childcare?</FormLabel>
         <RadioGroup
           row
-          name="question1"
-          onChange={(e) => handleRadioChange('question1', e.target.value)}
+          name="question8"
+          onChange={(e) => handleRadioChange('question8', e.target.value)}
         >
           <FormControlLabel value="yes" control={<Radio />} label="Yes" />
           <FormControlLabel value="no" control={<Radio />} label="No" />
         </RadioGroup>
-        {renderConditionalTextField('question1')}
+        {renderConditionalTextField('question8')}
       </FormControl>
       <FormControl component="fieldset" margin="normal">
-        <FormLabel component="legend">1. Do you have any convictions or adult cautions that are unspent?</FormLabel>
+        <FormLabel component="legend">9. Are you aware of any current police investigation in the United Kingdom or any
+other country following allegations made against you by the police?</FormLabel>
         <RadioGroup
           row
-          name="question1"
-          onChange={(e) => handleRadioChange('question1', e.target.value)}
+          name="question9"
+          onChange={(e) => handleRadioChange('question9', e.target.value)}
         >
           <FormControlLabel value="yes" control={<Radio />} label="Yes" />
           <FormControlLabel value="no" control={<Radio />} label="No" />
         </RadioGroup>
-        {renderConditionalTextField('question1')}
+        {renderConditionalTextField('question9')}
       </FormControl>
       <FormControl component="fieldset" margin="normal">
-        <FormLabel component="legend">1. Do you have any convictions or adult cautions that are unspent?</FormLabel>
+        <FormLabel component="legend">10. Are you aware of any current NHS Counter Fraud and Security Management
+Service Investigation following allegations made against you?</FormLabel>
         <RadioGroup
           row
-          name="question1"
-          onChange={(e) => handleRadioChange('question1', e.target.value)}
+          name="question10"
+          onChange={(e) => handleRadioChange('question10', e.target.value)}
         >
           <FormControlLabel value="yes" control={<Radio />} label="Yes" />
           <FormControlLabel value="no" control={<Radio />} label="No" />
         </RadioGroup>
-        {renderConditionalTextField('question1')}
+        {renderConditionalTextField('question10')}
       </FormControl>
       <FormControl component="fieldset" margin="normal">
-        <FormLabel component="legend">1. Do you have any convictions or adult cautions that are unspent?</FormLabel>
+        <FormLabel component="legend">
+          11. Have you ever been investigated by the Police, CFSMS or any other
+          Investigatory Body resulting in a caution, conviction or dismissal from your
+          employment?
+          (Investigatory bodies include Local Authorities, Customs and Exercise, Immigration,
+          Passport Agency, Inland Revenue, Department of Trade and Industry, Department
+          of work and Pensions, DBS, Security Agencies, Financial Service Authority, Banks
+          and Building Societies, General, Life Insurance Companies- This list is not
+          exhaustive, and you must declare any investigation conducted by an
+          Investigatory Body)</FormLabel>
         <RadioGroup
           row
-          name="question1"
-          onChange={(e) => handleRadioChange('question1', e.target.value)}
+          name="question11"
+          onChange={(e) => handleRadioChange('question11', e.target.value)}
         >
           <FormControlLabel value="yes" control={<Radio />} label="Yes" />
           <FormControlLabel value="no" control={<Radio />} label="No" />
         </RadioGroup>
-        {renderConditionalTextField('question1')}
+        {renderConditionalTextField('question11')}
       </FormControl>
       <FormControl component="fieldset" margin="normal">
-        <FormLabel component="legend">1. Do you have any convictions or adult cautions that are unspent?</FormLabel>
+        <FormLabel component="legend">12. Have you ever been dismissed by reason of misconduct from any employment, office or other position previously held by you?</FormLabel>
         <RadioGroup
           row
-          name="question1"
-          onChange={(e) => handleRadioChange('question1', e.target.value)}
+          name="question12"
+          onChange={(e) => handleRadioChange('question12', e.target.value)}
         >
           <FormControlLabel value="yes" control={<Radio />} label="Yes" />
           <FormControlLabel value="no" control={<Radio />} label="No" />
         </RadioGroup>
-        {renderConditionalTextField('question1')}
+        {renderConditionalTextField('question12')}
       </FormControl>
       <FormControl component="fieldset" margin="normal">
-        <FormLabel component="legend">1. Do you have any convictions or adult cautions that are unspent?</FormLabel>
+        <FormLabel component="legend">13. Have you ever been disqualified from the practice of a profession or required
+        to practice subject to specified limitations following fitness to practice proceedings
+        by a regulatory or licencing body in the United Kingdom or any other country?</FormLabel>
         <RadioGroup
           row
-          name="question1"
-          onChange={(e) => handleRadioChange('question1', e.target.value)}
+          name="question13"
+          onChange={(e) => handleRadioChange('question13', e.target.value)}
         >
           <FormControlLabel value="yes" control={<Radio />} label="Yes" />
           <FormControlLabel value="no" control={<Radio />} label="No" />
         </RadioGroup>
-        {renderConditionalTextField('question1')}
+        {renderConditionalTextField('question13')}
+      </FormControl>
+      <FormControl component="fieldset" margin="normal">
+        <FormLabel component="legend">14. Are you currently the subject of any Investigation or fitness to practice
+proceedings by any licencing or regulatory body in the United Kingdom or in any
+other country?</FormLabel>
+        <RadioGroup
+          row
+          name="question14"
+          onChange={(e) => handleRadioChange('question14', e.target.value)}
+        >
+          <FormControlLabel value="yes" control={<Radio />} label="Yes" />
+          <FormControlLabel value="no" control={<Radio />} label="No" />
+        </RadioGroup>
+        {renderConditionalTextField('question14')}
+      </FormControl>
+      <FormControl component="fieldset" margin="normal">
+        <FormLabel component="legend">15. Are you currently subject to any other prohibition, limitation, or restriction that
+means that means we are unable to consider you for the position which you are
+applying?</FormLabel>
+        <RadioGroup
+          row
+          name="question15"
+          onChange={(e) => handleRadioChange('question15', e.target.value)}
+        >
+          <FormControlLabel value="yes" control={<Radio />} label="Yes" />
+          <FormControlLabel value="no" control={<Radio />} label="No" />
+        </RadioGroup>
+        {renderConditionalTextField('question15')}
+      </FormControl>
+      <FormControl component="fieldset" margin="normal">
+        <FormLabel component="legend">16. Have you ever had registration refused or cancelled in relation to childcare or
+children’s homes or being disqualified from private fostering in the United Kingdom
+or in any other country?</FormLabel>
+        <RadioGroup
+          row
+          name="question16"
+          onChange={(e) => handleRadioChange('question16', e.target.value)}
+        >
+          <FormControlLabel value="yes" control={<Radio />} label="Yes" />
+          <FormControlLabel value="no" control={<Radio />} label="No" />
+        </RadioGroup>
+        {renderConditionalTextField('question16')}
+      </FormControl>
+      <FormControl component="fieldset" margin="normal">
+        <FormLabel component="legend">17. Have you ever been disqualified from a practise on grounds relating to the
+care of children (Including where an order is made in respect of a child under the
+person’s care) in the UK or in any other country?</FormLabel>
+        <RadioGroup
+          row
+          name="question17"
+          onChange={(e) => handleRadioChange('question17', e.target.value)}
+        >
+          <FormControlLabel value="yes" control={<Radio />} label="Yes" />
+          <FormControlLabel value="no" control={<Radio />} label="No" />
+        </RadioGroup>
+        {renderConditionalTextField('question17')}
+      </FormControl>
+      <FormControl component="fieldset" margin="normal">
+        <FormLabel component="legend">18. Are or have your children ever been, the subject of a child protection order?</FormLabel>
+        <RadioGroup
+          row
+          name="question18"
+          onChange={(e) => handleRadioChange('question18', e.target.value)}
+        >
+          <FormControlLabel value="yes" control={<Radio />} label="Yes" />
+          <FormControlLabel value="no" control={<Radio />} label="No" />
+        </RadioGroup>
+        {renderConditionalTextField('question18')}
+      </FormControl>
+      <FormControl component="fieldset" margin="normal">
+        <FormLabel component="legend">19. Have your children been taken into care?</FormLabel>
+        <RadioGroup
+          row
+          name="question19"
+          onChange={(e) => handleRadioChange('question19', e.target.value)}
+        >
+          <FormControlLabel value="yes" control={<Radio />} label="Yes" />
+          <FormControlLabel value="no" control={<Radio />} label="No" />
+        </RadioGroup>
+        {renderConditionalTextField('question19')}
+      </FormControl>
+      <FormControl component="fieldset" margin="normal">
+        <FormLabel component="legend">20. Please read the Disqualification under the Childcare Act 2006 for a full list
+of relevant offences and ordered for disqualification under the Childcare Act.
+Are you disqualified on any of the grounds set up in the DfE guidance (not already
+mentioned in the questions above)</FormLabel>
+        <RadioGroup
+          row
+          name="question20"
+          onChange={(e) => handleRadioChange('question20', e.target.value)}
+        >
+          <FormControlLabel value="yes" control={<Radio />} label="Yes" />
+          <FormControlLabel value="no" control={<Radio />} label="No" />
+        </RadioGroup>
+        {renderConditionalTextField('question20')}
       </FormControl>
       {/* ... */}
       {/* Include other questions following the same pattern */}
@@ -207,6 +366,9 @@ const QuestionnaireForm: React.FC<QuestionnaireFormProps> = ({ onNext, onPrev })
         Next
       </Button>
     </form>
+    </Box>
+  </Box>
+    
   );
 };
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Typography, TextField, Button, Radio, RadioGroup, FormControlLabel, FormControl, FormLabel, Checkbox } from '@mui/material';
+import { Typography, TextField, Button, Radio, RadioGroup, FormControlLabel, FormControl, FormLabel, Checkbox, Box, useMediaQuery } from '@mui/material';
 
 interface HealthDeclarationFormProps {
   onNext: () => void;
@@ -14,6 +14,8 @@ const HealthDeclarationForm: React.FC<HealthDeclarationFormProps> = ({ onNext, o
   const [doctorLetterProvided, setDoctorLetterProvided] = useState(false);
   const [consentGiven, setConsentGiven] = useState(false);
   const [date, setDate] = useState('');
+  const isNonMobileScreens = useMediaQuery("(min-width: 600px)");
+
 
   const handleHealthIssueChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setHasHealthIssue(event.target.value);
@@ -29,7 +31,23 @@ const HealthDeclarationForm: React.FC<HealthDeclarationFormProps> = ({ onNext, o
   };
 
   return (
-    <form>
+    <Box>
+    <Box
+      p="1rem 6%"
+      textAlign="center"
+    >
+      <Typography fontWeight="bold" fontSize="32px" color="primary">
+      Health Declaration
+      </Typography>
+    </Box>
+
+    <Box
+      width={isNonMobileScreens ? "50%" : "93%"}
+      p="1rem"
+      m="1rem auto"
+      borderRadius="1.5rem"
+    >
+        <form>
       <Typography variant="h6" gutterBottom>
         Health Declaration
       </Typography>
@@ -124,6 +142,9 @@ const HealthDeclarationForm: React.FC<HealthDeclarationFormProps> = ({ onNext, o
        
       
     </form>
+    </Box>
+  </Box>
+  
   );
 };
 

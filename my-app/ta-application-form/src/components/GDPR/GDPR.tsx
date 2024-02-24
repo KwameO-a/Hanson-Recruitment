@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Typography, TextField, Button, Checkbox, FormGroup, FormControlLabel } from '@mui/material';
+import { Typography, TextField, Button, Checkbox, FormGroup, FormControlLabel, Box, useMediaQuery } from '@mui/material';
 
 interface GDPRInformationFormProps {
   onNext: () => void;
@@ -15,6 +15,8 @@ const GDPRInformationForm: React.FC<GDPRInformationFormProps> = ({ onNext, onPre
   const [smsMarketing, setSMSMarketing] = useState(false);
   const [date, setDate] = useState('');
   const [consentGiven, setConsentGiven] = useState(false);
+  const isNonMobileScreens = useMediaQuery("(min-width: 600px)");
+
 
   const handleMarketingChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, checked } = event.target;
@@ -32,7 +34,23 @@ const GDPRInformationForm: React.FC<GDPRInformationFormProps> = ({ onNext, onPre
   
 
   return (
-    <form>
+    <Box>
+    <Box
+      p="1rem 6%"
+      textAlign="center"
+    >
+      <Typography fontWeight="bold" fontSize="32px" color="primary">
+      Advice to Applicants
+      </Typography>
+    </Box>
+
+    <Box
+      width={isNonMobileScreens ? "50%" : "93%"}
+      p="1rem"
+      m="1rem auto"
+      borderRadius="1.5rem"
+    >
+     <form>
       <Typography variant="h6" gutterBottom>
         GDPR Related Information
       </Typography>
@@ -121,6 +139,9 @@ const GDPRInformationForm: React.FC<GDPRInformationFormProps> = ({ onNext, onPre
         Next
       </Button>
     </form>
+    </Box>
+  </Box>
+  
   );
 };
 
