@@ -51,9 +51,9 @@ const MainForm: React.FC = () => {
 
     // Render the component
     return (
-        <div className="App">
-            {renderStep()}
-        </div>
+      <div className="App  flex items-center justify-center py-10  w-full">
+        <div className="w-full px-4 md:w-[500px] ">{renderStep()}</div>
+      </div>
     );
 };
 
