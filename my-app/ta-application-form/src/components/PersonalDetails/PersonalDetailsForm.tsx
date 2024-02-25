@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
-import { TextField, MenuItem, Button, Typography, Checkbox, FormControlLabel, Box, useMediaQuery } from '@mui/material';
+import { TextField, MenuItem, Button, Typography, Checkbox, FormControlLabel, Box, useMediaQuery, Grid, Paper } from '@mui/material';
 import PhoneInput from 'react-phone-number-input';
 import 'react-phone-number-input/style.css';
 import { countries } from 'countries-list';
+import logoImage from '../../assets/Hanson RGB 60PX.jpg'; // Adjust path as necessary
+import bannerImage from '../../assets/cm.jpg'; // Adjust path as necessary
+
+
+
 
 const countryOptions = Object.entries(countries).map(([code, { name }]) => ({
   label: name,
@@ -41,25 +46,30 @@ const PersonalDetails: React.FC<PersonalDetailsProps> = ({ onNext }) => {
       haveDBSOnUpdateService: name === "haveDBSOnUpdateService" ? checked : false,
     });
   };
+  
 
   return (
-    <Box>
-      <Box
-        p="1rem 6%"
-        textAlign="center"
-      >
-        <Typography fontWeight="bold" fontSize="32px" color="primary">
-          Personal Details
-        </Typography>
-      </Box>
+    
+    <Grid container spacing={2} sx={{ height: '100vh', padding: 4,}}>
+      <Grid item xs={12} md={6} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+        <Paper elevation={3} sx={{ padding: 4, margin: 2 }}>
+          <Box sx={{ textAlign: 'center', marginBottom: 2 }}>
+            <img src={logoImage} alt="Company Logo" style={{ height: '80px' }} />
+            <Typography variant="h5" component="h1" sx={{ fontWeight: 'bold' }}>
+              Apply for this role
+            </Typography>
+            <Typography variant="subtitle1">
+              UX Designer • Full time • Remote
+            </Typography>
+          </Box>
+          <Box
+      width={isNonMobileScreens ? "50%" : "93%"}
+      p="1rem"
+      m="1rem auto"
+      borderRadius="1.5rem"
+    ></Box>
 
-      <Box
-        width={isNonMobileScreens ? "50%" : "93%"}
-        p="1rem"
-        m="1rem auto"
-        borderRadius="1.5rem"
-      >
-        <form>
+          <form>
           {/* Title dropdown */}
           <TextField select label="Title" value={title} onChange={(e) => setTitle(e.target.value)} fullWidth margin="normal">
             <MenuItem value="Dr.">Dr.</MenuItem>
@@ -149,9 +159,63 @@ const PersonalDetails: React.FC<PersonalDetailsProps> = ({ onNext }) => {
               Next
           </Button>
         </form>
-      </Box>
-    </Box>
+          
+          {/* Your form fields here */}
+
+          {/* <Button
+            variant="contained"
+            onClick={onNext}
+            fullWidth
+            sx={{ mt: 2 }}
+          >
+            Continue
+          </Button> */}
+        </Paper>
+      </Grid>
+      <Grid item xs={12} md={6} sx={{ display: { xs: 'none', md: 'block' } }}>
+        <Box
+          sx={{
+            position: 'relative',
+      height: '100%',
+      borderRadius: 1,
+      '&::before': {
+        content: '""',
+        display: 'block',
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)', // This creates the dark overlay
+        borderRadius: 1,
+        zIndex: 1,
+      },
+      '&::after': {
+        content: '""',
+        display: 'block',
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundImage: `url(${bannerImage})`,
+        backgroundPosition: 'center',
+        backgroundSize: 'cover',
+        opacity: 1, // You can adjust this as needed
+        borderRadius: 1,
+        zIndex: 0,
+        },
+            
+            
+           
+            
+          }}
+        />
+      </Grid>
+    </Grid>
   );
 };
 
 export default PersonalDetails;
+
+
