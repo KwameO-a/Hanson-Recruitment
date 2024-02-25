@@ -1,8 +1,11 @@
 import React, { useState, useRef, MouseEvent } from 'react';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
-import { TextField, Button, Checkbox, FormControlLabel, Typography, Box, useMediaQuery } from '@mui/material';
+import { TextField, Button, Checkbox, FormControlLabel, Typography, Box, useMediaQuery, Grid, Paper } from '@mui/material';
 // import { date } from 'yup';
+import logoImage from '../../assets/Hanson RGB 60PX.jpg'; // Adjust path as necessary
+import bannerImage from '../../assets/cm.jpg'; // Adjust path as necessary
+
 
 interface DisclosureOfCriminalRecordsProps {
   onNext: () => void;
@@ -80,23 +83,26 @@ const DisclosureOfCriminalRecords: React.FC<DisclosureOfCriminalRecordsProps> = 
     >
       {({ errors, touched }) => (
         
-        <Box>
-        <Box
-          p="1rem 6%"
-          textAlign="center"
-        >
-          <Typography fontWeight="bold" fontSize="32px" color="primary">
-          Advice to Applicants
-          </Typography>
-        </Box>
-    
-        <Box
-          width={isNonMobileScreens ? "50%" : "93%"}
-          p="1rem"
-          m="1rem auto"
-          borderRadius="1.5rem"
-        >
-          <Form>
+        <Grid container spacing={2} sx={{ height: '100vh', padding: 4 }}>
+        <Grid item xs={12} md={6} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+          <Paper elevation={3} sx={{ padding: 4, margin: 2 }}>
+            <Box sx={{ textAlign: 'center', marginBottom: 2 }}>
+              <img src={logoImage} alt="Company Logo" style={{ height: '50px' }} />
+              <Typography variant="h5" component="h1" sx={{ fontWeight: 'bold' }}>
+                Apply for this role
+              </Typography>
+              <Typography variant="subtitle1">
+                UX Designer • Full time • Remote
+              </Typography>
+            </Box>
+            <Box
+        width={isNonMobileScreens ? "50%" : "93%"}
+        p="1rem"
+        m="1rem auto"
+        borderRadius="1.5rem"
+      ></Box>
+  
+  <Form>
 
 <Typography>
 Hanson Recruitment is committed to safeguarding and promoting the welfare of children and young people and expect all our supply staff to share this commitment</Typography>
@@ -207,8 +213,60 @@ Previous
 Next
 </Button>
 </Form>
-        </Box>
-      </Box>
+            
+            {/* Your form fields here */}
+  
+            {/* <Button
+              variant="contained"
+              onClick={onNext}
+              fullWidth
+              sx={{ mt: 2 }}
+            >
+              Continue
+            </Button> */}
+          </Paper>
+        </Grid>
+        <Grid item xs={12} md={6} sx={{ display: { xs: 'none', md: 'block' } }}>
+        <Box
+          sx={{
+            position: 'relative',
+      height: '100%',
+      borderRadius: 1,
+      '&::before': {
+        content: '""',
+        display: 'block',
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)', // This creates the dark overlay
+        borderRadius: 1,
+        zIndex: 1,
+      },
+      '&::after': {
+        content: '""',
+        display: 'block',
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundImage: `url(${bannerImage})`,
+        backgroundPosition: 'center',
+        backgroundSize: 'cover',
+        opacity: 1, // You can adjust this as needed
+        borderRadius: 1,
+        zIndex: 0,
+        },
+            
+            
+           
+            
+          }}
+        />
+      </Grid>
+      </Grid>
       )}
     </Formik>
   );
