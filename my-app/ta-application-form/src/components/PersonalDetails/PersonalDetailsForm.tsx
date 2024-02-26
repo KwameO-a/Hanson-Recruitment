@@ -75,7 +75,7 @@ const PersonalDetails: React.FC<PersonalDetailsProps> = ({ onNext }) => {
       [name]: type === 'checkbox' ? checked : value,
     }));
   };
-  console.log(title)
+  // console.log(title)
 
   // const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
   //   const { name, checked } = event.target;

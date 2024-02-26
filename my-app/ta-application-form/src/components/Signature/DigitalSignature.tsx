@@ -24,15 +24,45 @@ const DigitalSignature: React.FC<DigitalSignatureProps> = ({ onSignatureSave, on
       const signatureImage = sigPad.current.getTrimmedCanvas().toDataURL('image/png');
       
       // Prepare the data to send, including the signature
-      const dataToSend = {
+      const dataToSend1 = {
         signature: signatureImage,
         // Add any other data you need to send
         // name: 'John Doe',
         // date: new Date().toISOString(),
       };
 
+      const dataToSend = {
+        "title":"MR",
+        "firstName":"Ivan",
+        "middleName":"Nii Amu",
+        "lastName":"Dodoo",
+        "knownAs":"",
+        "previousNames":"",
+        "address":"Accra",
+        "postCode":"",
+        "phoneNumber":"",
+        "email":"HubertAmarfio@gmail.com",
+        "dob":"11 Nov, 2001",
+        "townofBirth":"",
+        "nationality":"Ghanaian",
+        "nationalInsuaranceNumber":"Gs-534532-34",
+        "gender":"Male",
+        "nextofkinName":"Wendy",
+        "relationship":"sister",
+        "nextofkinaddress":"Accra",
+        "nextofkincontact":"232343243232",
+        "qualification":"Tetiary",
+        "position":"Snr Dev",
+        "tel":"",
+        "datesOfemployment":"12/02/01",
+        "dbs":"dbssss oo",
+        "country":"",
+        "signature":""
+       
+    }
+
       // Use Axios to send the data to your API endpoint
-      axios.post('http://10.230.10.196:3002/submit-form', dataToSend)
+      axios.post('http://172.20.10.3:3002/submit-form', dataToSend)
         .then(response => {
           console.log('Data submitted successfully', response.data);
           onSignatureSave(signatureImage);
