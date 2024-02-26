@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { TextField, Button, Typography, Box, useMediaQuery, Grid, Paper } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { TextField, Button, Typography, Box, Grid, Paper } from '@mui/material';
 import logoImage from '../../assets/Hanson RGB 60PX.jpg'; // Adjust path as necessary
 import bannerImage from '../../assets/cm.jpg'; // Adjust path as necessary
 
@@ -9,10 +9,34 @@ interface NextOfKinProps {
 }
 
 const NextOfKin: React.FC<NextOfKinProps> = ({ onNext, onPrev }) => {
-  const [nextOfKinName, setNextOfKinName] = useState('');
-  const [relationship, setRelationship] = useState('');
-  const [contactNumber, setContactNumber] = useState('');
-  const isNonMobileScreens = useMediaQuery("(min-width: 600px)");
+  // Define the initial state function to load values from localStorage or set default values
+  const getInitialState = () => ({
+    nextOfKinName: localStorage.getItem('nextOfKinName') || '',
+    relationship: localStorage.getItem('relationship') || '',
+    contactNumber: localStorage.getItem('contactNumber') || '',
+  });
+
+  const [nextOfKinValues, setNextOfKinValues] = useState(getInitialState);
+
+  useEffect(() => {
+    // This effect ensures that any change to nextOfKinValues updates localStorage
+    Object.entries(nextOfKinValues).forEach(([key, value]) => {
+      localStorage.setItem(key, value);
+    });
+  }, [nextOfKinValues]); // Dependency on nextOfKinValues to capture changes
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setNextOfKinValues(prevValues => ({
+      ...prevValues,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    onNext();
+  };
 
   return (
     <Grid container spacing={2} sx={{ height: '100vh', padding: 4 }}>
@@ -20,64 +44,46 @@ const NextOfKin: React.FC<NextOfKinProps> = ({ onNext, onPrev }) => {
         <Paper elevation={3} sx={{ padding: 4, margin: 2 }}>
           <Box sx={{ textAlign: 'center', marginBottom: 2 }}>
             <img src={logoImage} alt="Company Logo" style={{ height: '50px' }} />
-            <Typography variant="h5" component="h1" sx={{ fontWeight: 'bold' }}>
-              Apply for this role
-            </Typography>
-            <Typography variant="subtitle1">
-              UX Designer • Full time • Remote
-            </Typography>
+            <Typography variant="h5" component="h1" sx={{ fontWeight: 'bold' }}>Apply for this role</Typography>
+            <Typography variant="subtitle1">UX Designer • Full time • Remote</Typography>
           </Box>
-          <Box
-      width={isNonMobileScreens ? "50%" : "93%"}
-      p="1rem"
-      m="1rem auto"
-      borderRadius="1.5rem"
-    ></Box>
 
-<div>
-<Typography variant="h6" gutterBottom>
-  Next of Kin Details
-</Typography>
-<TextField
-  label="Next of Kin Name"
-  value={nextOfKinName}
-  onChange={(e) => setNextOfKinName(e.target.value)}
-  fullWidth
-  margin="normal"
-/>
-<TextField
-  label="Relationship to Applicant"
-  value={relationship}
-  onChange={(e) => setRelationship(e.target.value)}
-  fullWidth
-  margin="normal"
-/>
-<TextField
-  label="Contact Number"
-  value={contactNumber}
-  onChange={(e) => setContactNumber(e.target.value)}
-  fullWidth
-  margin="normal"
-/>
-<Button variant="contained" onClick={onPrev}>Previous</Button>
-<Button variant="contained" onClick={onNext} style={{ marginLeft: '8px' }}>Next</Button>
-</div>
-          
-          {/* Your form fields here */}
-
-          {/* <Button
-            variant="contained"
-            onClick={onNext}
-            fullWidth
-            sx={{ mt: 2 }}
-          >
-            Continue
-          </Button> */}
+          <form onSubmit={handleSubmit}>
+            <Typography variant="h6" gutterBottom>Next of Kin Details</Typography>
+            <TextField
+              label="Next of Kin Name"
+              name="nextOfKinName"
+              value={nextOfKinValues.nextOfKinName}
+              onChange={handleInputChange}
+              fullWidth
+              margin="normal"
+            />
+            <TextField
+              label="Relationship to Applicant"
+              name="relationship"
+              value={nextOfKinValues.relationship}
+              onChange={handleInputChange}
+              fullWidth
+              margin="normal"
+            />
+            <TextField
+              label="Contact Number"
+              name="contactNumber"
+              value={nextOfKinValues.contactNumber}
+              onChange={handleInputChange}
+              fullWidth
+              margin="normal"
+            />
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
+              <Button variant="contained" onClick={onPrev}>Previous</Button>
+              <Button variant="contained" type="submit">Next</Button>
+            </Box>
+          </form>
         </Paper>
       </Grid>
       <Grid item xs={12} md={6} sx={{ display: { xs: 'none', md: 'block' } }}>
         <Box
-          sx={{
+           sx={{
             position: 'relative',
       height: '100%',
       borderRadius: 1,
@@ -116,11 +122,7 @@ const NextOfKin: React.FC<NextOfKinProps> = ({ onNext, onPrev }) => {
         />
       </Grid>
     </Grid>
-   
   );
 };
 
 export default NextOfKin;
-
-
-
