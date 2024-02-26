@@ -9,7 +9,8 @@ const app = express();
 app.use(bodyParser.json());
 
 // Make sure to replace 'your-mongodb-connection-string' with your actual MongoDB connection string.
-mongoose.connect('your-mongodb-connection-string', { useNewUrlParser: true, useUnifiedTopology: true });
+// mongoose.connect('mongodb+srv://adjapong18:unBcpWxIQLi5rVxy@kwameoa.5unynmt.mongodb.net/?retryWrites=true&w=majority&appName=KwameOa', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect('mongodb+srv://adjapong18:unBcpWxIQLi5rVxy@kwameoa.5unynmt.mongodb.net/test', { useNewUrlParser: true, useUnifiedTopology: true });
 
 app.post('/submit-form', async (req, res) => {
   try {
@@ -29,7 +30,7 @@ app.post('/submit-form', async (req, res) => {
     }];
 
     // Specify the recipient's email address dynamically or use a fixed address for testing
-    const recipientEmail = 'recipient@example.com'; // Replace with actual recipient email address
+    const recipientEmail = 'hubertamarfio@gmail.com'; // Replace with actual recipient email address
 
     // Send the email with the PDF attachment
     await sendEmail({
@@ -44,7 +45,7 @@ app.post('/submit-form', async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3002;
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
 });
