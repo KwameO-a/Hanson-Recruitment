@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import SignatureCanvas from 'react-signature-canvas';
 import { Box, Button, Grid, Paper, Typography, useMediaQuery } from '@mui/material';
-import axios from 'axios'; // Import Axios
+import axios from 'axios';
 
 // Adjust path as necessary for your assets
 import logoImage from '../../assets/Hanson RGB 60PX.jpg';
@@ -23,23 +23,20 @@ const DigitalSignature: React.FC<DigitalSignatureProps> = ({ onSignatureSave, on
     if (sigPad.current) {
       const signatureImage = sigPad.current.getTrimmedCanvas().toDataURL('image/png');
       
-      // Prepare the data to send, including the signature
-      const dataToSend = {
-        signature: signatureImage,
-        // Add any other data you need to send
-        // name: 'John Doe',
-        // date: new Date().toISOString(),
-      };
-
-      // Use Axios to send the data to your API endpoint
-      axios.post('http://10.230.10.196:3002/submit-form', dataToSend)
+      axios.post('http://10.230.10.196:3002/submit-form', { signature: signatureImage })
         .then(response => {
           console.log('Data submitted successfully', response.data);
           onSignatureSave(signatureImage);
           onNext();
         })
         .catch(error => {
-          console.error('Error submitting data', error);
+          if (error.response) {
+            console.error('Server responded with:', error.response.status, error.response.data);
+          } else if (error.request) {
+            console.error('The request was made but no response was received');
+          } else {
+            console.error('Error setting up the request:', error.message);
+          }
         });
     }
   };
@@ -54,12 +51,6 @@ const DigitalSignature: React.FC<DigitalSignatureProps> = ({ onSignatureSave, on
               Confirmation of Declaration
             </Typography>
           </Box>
-          <Box
-            width={isNonMobileScreens ? "50%" : "93%"}
-            p="1rem"
-            m="1rem auto"
-            borderRadius="1.5rem"
-          ></Box>
           <Typography>
             {/* Declaration text here */}
           </Typography>
