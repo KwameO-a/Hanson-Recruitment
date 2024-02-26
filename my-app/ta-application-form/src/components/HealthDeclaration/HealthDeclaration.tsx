@@ -1,167 +1,143 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Typography, TextField, Button, Radio, RadioGroup, FormControlLabel, FormControl, FormLabel, Checkbox, Box, useMediaQuery, Grid, Paper } from '@mui/material';
-import logoImage from '../../assets/Hanson RGB 60PX.jpg'; // Adjust path as necessary
-import bannerImage from '../../assets/cm.jpg'; // Adjust path as necessary
+import logoImage from '../../assets/Hanson RGB 60PX.jpg';
+import bannerImage from '../../assets/cm.jpg';
+
 interface HealthDeclarationFormProps {
   onNext: () => void;
   onPrev: () => void;
-  // Include any other props you might need
 }
 
 const HealthDeclarationForm: React.FC<HealthDeclarationFormProps> = ({ onNext, onPrev }) => {
-  const [hasHealthIssue, setHasHealthIssue] = useState('no');
-  const [healthInfo, setHealthInfo] = useState('');
-  const [supportNeeds, setSupportNeeds] = useState('');
-  const [doctorLetterProvided, setDoctorLetterProvided] = useState(false);
-  const [consentGiven, setConsentGiven] = useState(false);
-  const [date, setDate] = useState('');
-  const isNonMobileScreens = useMediaQuery("(min-width: 600px)");
+  // Correct initialization with parsing for boolean values
+  const [formValues, setFormValues] = useState({
+    hasHealthIssue: localStorage.getItem('hasHealthIssue') || 'no',
+    healthInfo: localStorage.getItem('healthInfo') || '',
+    supportNeeds: localStorage.getItem('supportNeeds') || '',
+    doctorLetterProvided: localStorage.getItem('doctorLetterProvided') === 'true', // Correctly parse boolean
+    consentGiven: localStorage.getItem('consentGiven') === 'true', // Correctly parse boolean
+    date: localStorage.getItem('date') || '',
+  });
 
+  const isNonMobileScreens = useMediaQuery("(min-width:600px)");
 
-  const handleHealthIssueChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setHasHealthIssue(event.target.value);
+  useEffect(() => {
+    // Synchronize formValues with localStorage
+    Object.entries(formValues).forEach(([key, value]) => {
+      localStorage.setItem(key, typeof value === 'boolean' ? String(value) : value);
+    });
+  }, [formValues]);
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value, type, checked } = event.target;
+    setFormValues(prevValues => ({
+      ...prevValues,
+      [name]: type === 'checkbox' ? checked : value,
+    }));
   };
+
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    onNext(); // Navigate to the next step
+  };
+
   const isNextDisabled = () => {
-    if (hasHealthIssue === 'yes' && (!healthInfo || !supportNeeds)) {
+    if (formValues.hasHealthIssue === 'yes' && (!formValues.healthInfo || !formValues.supportNeeds)) {
       return true;
     }
-    if (!consentGiven || !date) {
-      return true;
-    }
-    return false;
+    return !formValues.consentGiven || !formValues.date;
   };
 
   return (
     <Grid container spacing={2} sx={{ height: '100vh', padding: 4 }}>
-    <Grid item xs={12} md={6} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-      <Paper elevation={3} sx={{ padding: 4, margin: 2 }}>
-        <Box sx={{ textAlign: 'center', marginBottom: 2 }}>
-          <img src={logoImage} alt="Company Logo" style={{ height: '50px' }} />
-          <Typography variant="h5" component="h1" sx={{ fontWeight: 'bold' }}>
-            Apply for this role
-          </Typography>
-          <Typography variant="subtitle1">
-            UX Designer • Full time • Remote
-          </Typography>
-        </Box>
+      <Grid item xs={12} md={6} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+        <Paper elevation={3} sx={{ padding: 4, margin: 2 }}>
+          <Box sx={{ textAlign: 'center', marginBottom: 2 }}>
+            <img src={logoImage} alt="Company Logo" style={{ height: '50px' }} />
+            <Typography variant="h5" component="h1" sx={{ fontWeight: 'bold' }}>
+              Apply for this role
+            </Typography>
+            <Typography variant="subtitle1">
+              UX Designer • Full time • Remote
+            </Typography>
+          </Box>
+          <Box
+      width={isNonMobileScreens ? "50%" : "93%"}
+      p="1rem"
+      m="1rem auto"
+      borderRadius="1.5rem"
+    ></Box>
+
+          <form onSubmit={handleSubmit}>
+            {/* Health Declaration Fields */}
+            <FormControl component="fieldset" margin="normal">
+              <FormLabel component="legend">Do you have any health issues or disabilities relevant to the role you seek?</FormLabel>
+              <RadioGroup
+                row
+                aria-label="hasHealthIssue"
+                name="hasHealthIssue"
+                value={formValues.hasHealthIssue}
+                onChange={handleInputChange}
+              >
+                <FormControlLabel value="yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="no" control={<Radio />} label="No" />
+              </RadioGroup>
+            </FormControl>
+
+            {formValues.hasHealthIssue === 'yes' && (
+              <>
+                <TextField
+                  fullWidth
+                  multiline
+                  rows={4}
+                  margin="normal"
+                  name="healthInfo"
+                  label="Health Information"
+                  value={formValues.healthInfo}
+                  onChange={handleInputChange}
+                />
+                <TextField
+                  fullWidth
+                  multiline
+                  rows={4}
+                  margin="normal"
+                  name="supportNeeds"
+                  label="Support Needs"
+                  value={formValues.supportNeeds}
+                  onChange={handleInputChange}
+                />
+                <FormControlLabel
+                  control={<Checkbox checked={formValues.doctorLetterProvided} onChange={handleInputChange} name="doctorLetterProvided" />}
+                  label="I will provide a doctor's letter"
+                />
+              </>
+            )}
+
+            <FormControlLabel
+              control={<Checkbox checked={formValues.consentGiven} onChange={handleInputChange} name="consentGiven" />}
+              label="I consent to the processing of my health information"
+            />
+            <TextField
+              fullWidth
+              type="date"
+              margin="normal"
+              name="date"
+              label="Date"
+              value={formValues.date}
+              onChange={handleInputChange}
+              InputLabelProps={{ shrink: true }}
+            />
+
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
+              <Button variant="contained" onClick={onPrev}>Previous</Button>
+              <Button variant="contained" color="primary" type="submit" disabled={isNextDisabled()}>Next</Button>
+            </Box>
+          </form>
+        </Paper>
+      </Grid>
+      <Grid item xs={12} md={6} sx={{ display: { xs: 'none', md: 'block' } }}>
         <Box
-    width={isNonMobileScreens ? "50%" : "93%"}
-    p="1rem"
-    m="1rem auto"
-    borderRadius="1.5rem"
-  ></Box>
-
-<form>
-<Typography variant="h6" gutterBottom>
-  Health Declaration
-</Typography>
-<Typography>
-The Education (Health Standards) (England) Regulations 2003 and The Education (Health
-Standards) (Wales) Regulations 2004 require employers and employment businesses to satisfy themselves that individuals are medically fit and have the appropriate level of physical and mental fitness to be appointed to a post involving regular contact with children. Under Section 60
-of the Equality Act, an individual can be asked relevant questions about disability and health in
-order to establish whether they have the physical and mental capacity for the specific role. This
-question does not form part of our recruitment decision, but we may ask you for further
-information before confirming your registration and deploying you to work.
-Any proven falsification of this declaration may result in the withdrawal of an offer of a placement
-if it has not yet commenced and removal from Hanson Recruitment’s register if the placement has
-already commenced.
-</Typography>
-
-<FormControl component="fieldset" margin="normal">
-  <FormLabel component="legend">Do you have any health issues or disability relevant which may make it difficult for you to carry out functions which are essential for the role you seek?</FormLabel>
-  <RadioGroup
-    row
-    aria-label="hasHealthIssue"
-    name="hasHealthIssue"
-    value={hasHealthIssue}
-    onChange={handleHealthIssueChange}
-  >
-    <FormControlLabel value="yes" control={<Radio />} label="Yes" />
-    <FormControlLabel value="no" control={<Radio />} label="No" />
-  </RadioGroup>
-</FormControl>
-
-{hasHealthIssue === 'yes' && (
-  <Typography>
-    If you answered ‘Yes’, please provide further information by responding to questions below,
-    sign and date the declaration at the end and please provide Hanson Recruitment with a
-    doctor’s letter confirming your fitness to work in the role for which you have applied.
-              <TextField
-      label="Please outline the health information that affects your physical/mental fitness to be
-      appointed to a post involving regular contact with children."
-      value={healthInfo}
-      onChange={(e) => setHealthInfo(e.target.value)}
-      fullWidth
-      margin="normal"
-      multiline
-      rows={4}
-    />
-    <TextField
-      label="If relevant, what support/adjustments can an employer offer to assist you in the workplace?"
-      value={supportNeeds}
-      onChange={(e) => setSupportNeeds(e.target.value)}
-      fullWidth
-      margin="normal"
-      multiline
-      rows={4}
-    />
-    <FormControlLabel
-      control={
-        <Checkbox
-          checked={doctorLetterProvided}
-          onChange={(e) => setDoctorLetterProvided(e.target.checked)}
-          name="doctorLetterProvided"
-        />
-      }
-      label="I will provide a doctor's letter confirming my fitness to work"
-    />
-  </Typography>
-)}
-<FormControlLabel
-  control={
-    <Checkbox
-      checked={consentGiven}
-      onChange={(e) => setConsentGiven(e.target.checked)}
-      name="consentGiven"
-    />
-  }
-  label="I consent to the collection and processing of my health information as outlined above"
-/>
-<TextField
-  label="Date"
-  type="date"
-  value={date}
-  onChange={(e) => setDate(e.target.value)}
-  fullWidth
-  margin="normal"
-  InputLabelProps={{
-    shrink: true,
-  }}
-/>
-
-<Button variant="contained" onClick={onPrev}>
-  Previous
-</Button>
-<Button variant="contained" color="primary" onClick={onNext} disabled={isNextDisabled()}> Next</Button>
- 
-
-</form>
-        
-        {/* Your form fields here */}
-
-        {/* <Button
-          variant="contained"
-          onClick={onNext}
-          fullWidth
-          sx={{ mt: 2 }}
-        >
-          Continue
-        </Button> */}
-      </Paper>
-    </Grid>
-    <Grid item xs={12} md={6} sx={{ display: { xs: 'none', md: 'block' } }}>
-        <Box
-          sx={{
+           sx={{
             position: 'relative',
       height: '100%',
       borderRadius: 1,
@@ -199,11 +175,8 @@ already commenced.
           }}
         />
       </Grid>
-  </Grid>
-  
+    </Grid>
   );
 };
 
 export default HealthDeclarationForm;
-
-
