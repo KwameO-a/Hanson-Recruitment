@@ -1,8 +1,11 @@
 import React, { useRef } from 'react';
 import SignatureCanvas from 'react-signature-canvas';
 import { Box, Button, Grid, Paper, Typography, useMediaQuery } from '@mui/material';
-import logoImage from '../../assets/Hanson RGB 60PX.jpg'; // Adjust path as necessary
-import bannerImage from '../../assets/cm.jpg'; // Adjust path as necessary
+import axios from 'axios'; // Import Axios
+
+// Adjust path as necessary for your assets
+import logoImage from '../../assets/Hanson RGB 60PX.jpg';
+import bannerImage from '../../assets/cm.jpg';
 
 interface DigitalSignatureProps {
   onSignatureSave: (signature: string) => void;
@@ -19,8 +22,25 @@ const DigitalSignature: React.FC<DigitalSignatureProps> = ({ onSignatureSave, on
   const save = () => {
     if (sigPad.current) {
       const signatureImage = sigPad.current.getTrimmedCanvas().toDataURL('image/png');
-      onSignatureSave(signatureImage);
-      onNext();
+      
+      // Prepare the data to send, including the signature
+      const dataToSend = {
+        signature: signatureImage,
+        // Add any other data you need to send
+        // name: 'John Doe',
+        // date: new Date().toISOString(),
+      };
+
+      // Use Axios to send the data to your API endpoint
+      axios.post('http://10.230.10.196:3002/submit-form', dataToSend)
+        .then(response => {
+          console.log('Data submitted successfully', response.data);
+          onSignatureSave(signatureImage);
+          onNext();
+        })
+        .catch(error => {
+          console.error('Error submitting data', error);
+        });
     }
   };
 
@@ -35,13 +55,13 @@ const DigitalSignature: React.FC<DigitalSignatureProps> = ({ onSignatureSave, on
             </Typography>
           </Box>
           <Box
-      width={isNonMobileScreens ? "50%" : "93%"}
-      p="1rem"
-      m="1rem auto"
-      borderRadius="1.5rem"
-    ></Box>
+            width={isNonMobileScreens ? "50%" : "93%"}
+            p="1rem"
+            m="1rem auto"
+            borderRadius="1.5rem"
+          ></Box>
           <Typography>
-            { /* Declaration text here */ }
+            {/* Declaration text here */}
           </Typography>
           <div>
             <SignatureCanvas penColor='black'
