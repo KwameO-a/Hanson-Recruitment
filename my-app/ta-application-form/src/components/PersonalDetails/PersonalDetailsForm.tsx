@@ -46,7 +46,7 @@ const PersonalDetails: React.FC<PersonalDetailsProps> = ({ onNext }) => {
       haveDBSOnUpdateService: name === "haveDBSOnUpdateService" ? checked : false,
     });
   };
-  
+  console.log(title)
 
   return (
     
