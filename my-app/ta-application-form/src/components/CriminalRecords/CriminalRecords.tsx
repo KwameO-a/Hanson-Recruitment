@@ -227,45 +227,16 @@ Next
           </Paper>
         </Grid>
         <Grid item xs={12} md={6} sx={{ display: { xs: 'none', md: 'block' } }}>
-        <Box
-          sx={{
-            position: 'relative',
-      height: '100%',
-      borderRadius: 1,
-      '&::before': {
-        content: '""',
-        display: 'block',
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        backgroundColor: 'rgba(0, 0, 0, 0.5)', // This creates the dark overlay
-        borderRadius: 1,
-        zIndex: 1,
-      },
-      '&::after': {
-        content: '""',
-        display: 'block',
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        backgroundImage: `url(${bannerImage})`,
-        backgroundPosition: 'center',
-        backgroundSize: 'cover',
-        opacity: 1, // You can adjust this as needed
-        borderRadius: 1,
-        zIndex: 0,
-        },
-            
-            
-           
-            
-          }}
-        />
-      </Grid>
+          <Box
+            sx={{
+              backgroundImage: `url(${bannerImage})`,
+              backgroundPosition: 'center',
+              backgroundSize: 'cover',
+              borderRadius: 1,
+              height: '100%',
+            }}
+          />
+        </Grid>
       </Grid>
       )}
     </Formik>

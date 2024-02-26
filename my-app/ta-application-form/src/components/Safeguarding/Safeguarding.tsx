@@ -1,7 +1,21 @@
-import React, { useState } from 'react';
-import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, TextField, Typography, Button, Box, useMediaQuery, Grid, Paper } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import {
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  Radio,
+  RadioGroup,
+  TextField,
+  Typography,
+  Button,
+  Box,
+  useMediaQuery,
+  Grid,
+  Paper
+} from '@mui/material';
 import logoImage from '../../assets/Hanson RGB 60PX.jpg'; // Adjust path as necessary
 import bannerImage from '../../assets/cm.jpg'; // Adjust path as necessary
+
 interface Answers {
   [key: string]: string;
 }
@@ -15,13 +29,26 @@ const QuestionnaireForm: React.FC<QuestionnaireFormProps> = ({ onNext, onPrev })
   const [answers, setAnswers] = useState<Answers>({});
   const isNonMobileScreens = useMediaQuery("(min-width: 600px)");
 
-  const handleRadioChange = (questionNumber: string, value: string) => {
-    setAnswers({ ...answers, [questionNumber]: value });
-  };
+  useEffect(() => {
+    const savedAnswers = JSON.parse(localStorage.getItem('questionnaireAnswers') || '{}');
+    setAnswers(savedAnswers);
+  }, []);
 
+  const handleRadioChange = (questionNumber: string, value: string) => {
+    console.log('Question Number:', questionNumber);
+    console.log('Selected Value:', value);
+    // If the selected value is 'yes', include it in the state along with the detail
+    const updatedAnswers: Answers = value === 'yes' ? { ...answers, [questionNumber]: value } : { ...answers, [questionNumber]: value, [`${questionNumber}_detail`]: '' };
+    console.log('Updated Answers:', updatedAnswers);
+    setAnswers(updatedAnswers);
+  };
+  
+  
   const handleDetailChange = (questionNumber: string, detail: string) => {
+    // Update the state to include the detail for the corresponding question
     setAnswers({ ...answers, [`${questionNumber}_detail`]: detail });
   };
+  
 
   const renderConditionalTextField = (questionNumber: string) => {
     if (answers[questionNumber] === 'yes') {
@@ -46,6 +73,12 @@ const QuestionnaireForm: React.FC<QuestionnaireFormProps> = ({ onNext, onPrev })
     );
   };
 
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    localStorage.setItem('questionnaireAnswers', JSON.stringify(answers)); // Save form data to local storage
+    onNext(); // Proceed to the next step
+  };
+
   return (
     <Grid container spacing={2} sx={{ height: '100vh', padding: 4 }}>
     <Grid item xs={12} md={6} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
@@ -66,7 +99,7 @@ const QuestionnaireForm: React.FC<QuestionnaireFormProps> = ({ onNext, onPrev })
     borderRadius="1.5rem"
   ></Box>
 
-<form>
+<form onSubmit={handleSubmit}>
 <Typography variant="h6" gutterBottom>
   Safeguarding and Background Information
 </Typography>
@@ -364,73 +397,51 @@ mentioned in the questions above)</FormLabel>
 
 {/* Navigation Buttons */}
 <Button variant="contained" onClick={onPrev}>
-  Previous
-</Button>
-<Button variant="contained" color="primary" onClick={onNext} disabled={isNextDisabled()}>
-  Next
-</Button>
-</form>
-        
-        {/* Your form fields here */}
-
-        {/* <Button
-          variant="contained"
-          onClick={onNext}
-          fullWidth
-          sx={{ mt: 2 }}
-        >
-          Continue
-        </Button> */}
-      </Paper>
-    </Grid>
-    <Grid item xs={12} md={6} sx={{ display: { xs: 'none', md: 'block' } }}>
+              Previous
+            </Button>
+            <Button variant="contained" color="primary" type="submit" disabled={isNextDisabled()}>
+              Next
+            </Button>
+          </form>
+        </Paper>
+      </Grid>
+      <Grid item xs={12} md={6} sx={{ display: { xs: 'none', md: 'block' } }}>
         <Box
           sx={{
             position: 'relative',
-      height: '100%',
-      borderRadius: 1,
-      '&::before': {
-        content: '""',
-        display: 'block',
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        backgroundColor: 'rgba(0, 0, 0, 0.5)', // This creates the dark overlay
-        borderRadius: 1,
-        zIndex: 1,
-      },
-      '&::after': {
-        content: '""',
-        display: 'block',
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        backgroundImage: `url(${bannerImage})`,
-        backgroundPosition: 'center',
-        backgroundSize: 'cover',
-        opacity: 1, // You can adjust this as needed
-        borderRadius: 1,
-        zIndex: 0,
-        },
-            
-            
-           
-            
+            height: '100%',
+            '&::before': {
+              content: '""',
+              display: 'block',
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              backgroundColor: 'rgba(0, 0, 0, 0.5)',
+              borderRadius: 1,
+              zIndex: 1,
+            },
+            '&::after': {
+              content: '""',
+              display: 'block',
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              backgroundImage: `url(${bannerImage})`,
+              backgroundPosition: 'center',
+              backgroundSize: 'cover',
+              opacity: 1,
+              borderRadius: 1,
+              zIndex: 0,
+            },
           }}
         />
       </Grid>
-  </Grid>
-    
+    </Grid>
   );
 };
 
 export default QuestionnaireForm;
-
-
-
-
-
