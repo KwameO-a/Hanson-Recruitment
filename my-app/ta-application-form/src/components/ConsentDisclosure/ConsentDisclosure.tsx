@@ -123,7 +123,7 @@ Please sign the declaration below to confirm that we have your consent to share 
       </Grid>
       <Grid item xs={12} md={6} sx={{ display: { xs: 'none', md: 'block' } }}>
         <Box 
-          sx={{
+           sx={{
             position: 'relative',
       height: '100%',
       borderRadius: 1,
