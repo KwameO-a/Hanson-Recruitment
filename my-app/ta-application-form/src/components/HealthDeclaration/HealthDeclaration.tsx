@@ -16,7 +16,7 @@ const HealthDeclarationForm: React.FC<HealthDeclarationFormProps> = ({ onNext, o
     supportNeeds: localStorage.getItem('supportNeeds') || '',
     doctorLetterProvided: localStorage.getItem('doctorLetterProvided') === 'true', // Correctly parse boolean
     consentGiven: localStorage.getItem('consentGiven') === 'true', // Correctly parse boolean
-    date: localStorage.getItem('date') || '',
+    HealthDeclarationDate: localStorage.getItem('HealthDeclarationDate') || '',
   });
 
   const isNonMobileScreens = useMediaQuery("(min-width:600px)");
@@ -45,7 +45,7 @@ const HealthDeclarationForm: React.FC<HealthDeclarationFormProps> = ({ onNext, o
     if (formValues.hasHealthIssue === 'yes' && (!formValues.healthInfo || !formValues.supportNeeds)) {
       return true;
     }
-    return !formValues.consentGiven || !formValues.date;
+    return !formValues.consentGiven || !formValues.HealthDeclarationDate;
   };
 
   return (
@@ -121,9 +121,9 @@ const HealthDeclarationForm: React.FC<HealthDeclarationFormProps> = ({ onNext, o
               fullWidth
               type="date"
               margin="normal"
-              name="date"
+              name="HealthDeclarationDate"
               label="Date"
-              value={formValues.date}
+              value={formValues.HealthDeclarationDate}
               onChange={handleInputChange}
               InputLabelProps={{ shrink: true }}
             />

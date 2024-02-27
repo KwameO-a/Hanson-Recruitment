@@ -11,17 +11,17 @@ interface ConsentDisclosureFormProps {
 const ConsentDisclosureForm: React.FC<ConsentDisclosureFormProps> = ({ onNext, onPrev }) => {
   // Using useState to initialize form fields with localStorage data or default values
   const [consentGiven, setConsentGiven] = useState(JSON.parse(localStorage.getItem('consentGiven') || 'false'));
-  const [date, setDate] = useState(localStorage.getItem('date') || '');
+  const [ConsentDate, setConsentDate] = useState(localStorage.getItem('ConsentDate') || '');
   const isNonMobileScreens = useMediaQuery("(min-width: 600px)");
 
   // useEffect to update localStorage whenever consentGiven or date changes
   useEffect(() => {
     localStorage.setItem('consentGiven', JSON.stringify(consentGiven));
-    localStorage.setItem('date', date);
-  }, [consentGiven, date]);
+    localStorage.setItem('ConsentDate', ConsentDate);
+  }, [consentGiven, ConsentDate]);
 
   const isNextDisabled = () => {
-    return !consentGiven || !date; // Returns true if consent is not given or date is empty
+    return !consentGiven || !ConsentDate; // Returns true if consent is not given or date is empty
   };
   
 
@@ -102,8 +102,8 @@ Please sign the declaration below to confirm that we have your consent to share 
               type="date"
               fullWidth
               margin="normal"
-              value={date}
-              onChange={(e) => setDate(e.target.value)}
+              value={ConsentDate}
+              onChange={(e) => setConsentDate(e.target.value)}
               InputLabelProps={{ shrink: true }}
             />
             <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>

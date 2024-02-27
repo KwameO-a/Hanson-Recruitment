@@ -14,6 +14,7 @@ const NextOfKin: React.FC<NextOfKinProps> = ({ onNext, onPrev }) => {
     nextOfKinName: localStorage.getItem('nextOfKinName') || '',
     relationship: localStorage.getItem('relationship') || '',
     contactNumber: localStorage.getItem('contactNumber') || '',
+    nextofkinaddress: localStorage.getItem('nextofkinaddress') || '',
   });
 
   const [nextOfKinValues, setNextOfKinValues] = useState(getInitialState);
@@ -62,6 +63,14 @@ const NextOfKin: React.FC<NextOfKinProps> = ({ onNext, onPrev }) => {
               label="Relationship to Applicant"
               name="relationship"
               value={nextOfKinValues.relationship}
+              onChange={handleInputChange}
+              fullWidth
+              margin="normal"
+            />
+            <TextField
+              label="Address"
+              name="nextofkinaddress"
+              value={nextOfKinValues.nextofkinaddress}
               onChange={handleInputChange}
               fullWidth
               margin="normal"

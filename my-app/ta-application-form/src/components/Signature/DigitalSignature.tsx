@@ -23,10 +23,63 @@ const DigitalSignature: React.FC<DigitalSignatureProps> = ({ onSignatureSave, on
     if (sigPad.current) {
       const signatureImage = sigPad.current.getTrimmedCanvas().toDataURL('image/png');
       
-      axios.post('http://10.230.10.196:3002/submit-form', { signature: signatureImage })
+      // // Prepare the data to send, including the signature
+      // const dataToSend1 = {
+      //   signature: signatureImage,
+      //   // Add any other data you need to send
+      //   // name: 'John Doe',
+      //   // date: new Date().toISOString(),
+      // };
+
+      const dataToSend = {
+        "title":localStorage.getItem("title") || "",
+        "firstName":localStorage.getItem("firstName") || "",
+        "middleName":localStorage.getItem("middleName") || "",
+        "lastName":localStorage.getItem("lastName") || "",
+        "knownAs":localStorage.getItem("knownAs") || "",
+        "previousNames":localStorage.getItem("previousNames") || "",
+        "address":localStorage.getItem("address") || "",
+        "postCode":localStorage.getItem("postcode") || "",
+        "phoneNumber":localStorage.getItem("phoneNumber") || "",
+        "email":localStorage.getItem("yourEmail") || "",
+        "dob":localStorage.getItem("dateOfBirth") || "",
+        "townofBirth":localStorage.getItem("townOfBirth") || "",
+        "nationality":localStorage.getItem("selectedNationality") || "",
+        "nationalInsuaranceNumber":localStorage.getItem( "nationalInsurance" )|| "" ,
+        "gender":localStorage.getItem( "gender" )|| "" ,
+        "nextofkinName":localStorage.getItem( "nextOfKinName" )|| "" ,
+        "relationship":localStorage.getItem( "relationship" )|| "" ,
+        "nextofkinaddress":localStorage.getItem( "nextofkinaddress" )|| "" ,
+        "nextofkincontact":localStorage.getItem( "contactNumber" )|| "" ,
+        "qualification":localStorage.getItem( "highestQualification" )|| "" ,
+        "position":"Teaching Assistant",
+        "tel":localStorage.getItem("phoneNumber") || "",
+        "ReferenceTitle" : localStorage.getItem("ReferenceTitle")  || "",
+        "datesOfemployment":localStorage.getItem("startDate") || "",
+        "datesOfemploymentEnd":localStorage.getItem("endDate") || "",       
+        "ReferenceEmail":localStorage.getItem("ReferenceTitle")  || "",
+        "criminalRecordDetails":localStorage.getItem("formValues")  || "",
+        "criminalDetails":localStorage.getItem("criminalRecordDetails")  || "",
+        "ConsentToCriminalRecords":localStorage.getItem("I consent to the processing of my application with the provided information.")  || "",
+        "healthInfo":localStorage.getItem("healthInfo")  || "",
+
+
+        
+        "HealthDeclarationDate": localStorage.getItem("HealthDeclarationDate") || "",
+        "dbs":"dbssss oo",
+        "country":"",
+        "signature":signatureImage
+        
+
+       
+    }
+
+      // Use Axios to send the data to your API endpoint
+      axios.post('http://10.230.10.196:3002/submit-form', dataToSend)
         .then(response => {
           console.log('Data submitted successfully', response.data);
           onSignatureSave(signatureImage);
+          localStorage.clear();
           onNext();
         })
         .catch(error => {
@@ -51,6 +104,12 @@ const DigitalSignature: React.FC<DigitalSignatureProps> = ({ onSignatureSave, on
               Confirmation of Declaration
             </Typography>
           </Box>
+          <Box
+      width={isNonMobileScreens ? "50%" : "93%"}
+      p="1rem"
+      m="1rem auto"
+      borderRadius="1.5rem"
+    ></Box>
           <Typography>
             {/* Declaration text here */}
           </Typography>

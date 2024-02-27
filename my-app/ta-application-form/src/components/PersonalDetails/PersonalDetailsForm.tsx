@@ -8,7 +8,7 @@ import bannerImage from '../../assets/cm.jpg'; // Adjust path as necessary
 
 const countryOptions = Object.entries(countries).map(([code, { name }]) => ({
   label: name,
-  value: code,
+  value: name,
 }));
 
 interface PersonalDetailsProps {
@@ -75,7 +75,7 @@ const PersonalDetails: React.FC<PersonalDetailsProps> = ({ onNext }) => {
       [name]: type === 'checkbox' ? checked : value,
     }));
   };
-  
+  // console.log(title)
 
   // const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
   //   const { name, checked } = event.target;

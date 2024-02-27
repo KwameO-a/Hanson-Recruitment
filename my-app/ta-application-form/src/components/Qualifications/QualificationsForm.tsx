@@ -16,13 +16,13 @@ const QualificationsForm: React.FC<QualificationsFormProps> = ({ onNext, onPrev 
   const [checkState, setCheckState] = useState({ notRequired: localStorage.getItem('notRequired') === 'true', required: localStorage.getItem('required') === 'true' });
   const [forename, setForename] = useState(localStorage.getItem('forename') || '');
   const [surname, setSurname] = useState(localStorage.getItem('surname') || '');
-  const [title, setTitle] = useState(localStorage.getItem('title') || '');
+  const [Referencetitle, setReferenceTitle] = useState(localStorage.getItem('Referencetitle') || '');
   const [position, setPosition] = useState(localStorage.getItem('position') || '');
   const [company, setCompany] = useState(localStorage.getItem('company') || '');
   const [phoneNumber, setPhoneNumber] = useState(localStorage.getItem('phoneNumber') || '');
   const [startDate, setStartDate] = useState(localStorage.getItem('startDate') || '');
   const [endDate, setEndDate] = useState(localStorage.getItem('endDate') || '');
-  const [email, setEmail] = useState(localStorage.getItem('email') || '');
+  const [ReferenceEmail, setReferenceEmail] = useState(localStorage.getItem('ReferenceEmail') || '');
 
   useEffect(() => {
     // Store form data in localStorage when any state changes
@@ -32,14 +32,14 @@ const QualificationsForm: React.FC<QualificationsFormProps> = ({ onNext, onPrev 
     localStorage.setItem('required', String(checkState.required));
     localStorage.setItem('forename', forename);
     localStorage.setItem('surname', surname);
-    localStorage.setItem('title', title);
+    localStorage.setItem('Referencetitle', Referencetitle);
     localStorage.setItem('position', position);
     localStorage.setItem('company', company);
     localStorage.setItem('phoneNumber', phoneNumber);
     localStorage.setItem('startDate', startDate);
     localStorage.setItem('endDate', endDate);
-    localStorage.setItem('email', email);
-  }, [highestQualification, overseasCountries, checkState, forename, surname, title, position, company, phoneNumber, startDate, endDate, email]);
+    localStorage.setItem('ReferenceEmail', ReferenceEmail);
+  }, [highestQualification, overseasCountries, checkState, forename, surname, Referencetitle, position, company, phoneNumber, startDate, endDate, ReferenceEmail]);
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, checked } = event.target;
@@ -109,7 +109,7 @@ const QualificationsForm: React.FC<QualificationsFormProps> = ({ onNext, onPrev 
             {/* Fields for references */}
             <TextField label="Forename" value={forename} onChange={(e) => setForename(e.target.value)} fullWidth margin="normal" />
             <TextField label="Surname" value={surname} onChange={(e) => setSurname(e.target.value)} fullWidth margin="normal" />
-            <TextField select label="Title" value={title} onChange={(e) => setTitle(e.target.value)} fullWidth margin="normal">
+            <TextField select label="Title" value={Referencetitle} onChange={(e) => setReferenceTitle(e.target.value)} fullWidth margin="normal">
               <MenuItem value="Dr.">Dr.</MenuItem>
               <MenuItem value="Mr.">Mr.</MenuItem>
               <MenuItem value="Mrs.">Mrs.</MenuItem>
@@ -141,7 +141,7 @@ const QualificationsForm: React.FC<QualificationsFormProps> = ({ onNext, onPrev 
               margin="normal"
               type="month"
             />
-            <TextField label="Email" value={email} onChange={(e) => setEmail(e.target.value)} fullWidth margin="normal" />
+            <TextField label="Email" value={ReferenceEmail} onChange={(e) => setReferenceEmail(e.target.value)} fullWidth margin="normal" />
 
             <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
               <Button variant="contained" onClick={onPrev} style={{ marginRight: '10px' }}>
