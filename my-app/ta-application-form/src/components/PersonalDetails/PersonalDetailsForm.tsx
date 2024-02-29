@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { TextField, MenuItem, Button, Typography, Checkbox, FormControlLabel, Box, useMediaQuery, Grid, Paper } from '@mui/material';
+import { TextField, MenuItem, Button, Typography, RadioGroup,Radio, FormControlLabel, Box, useMediaQuery, Grid, Paper } from '@mui/material';
 import PhoneInput from 'react-phone-number-input';
 import 'react-phone-number-input/style.css';
 import { countries } from 'countries-list';
@@ -60,6 +60,29 @@ const PersonalDetails: React.FC<PersonalDetailsProps> = ({ onNext }) => {
   });
   const isNonMobileScreens = useMediaQuery("(min-width: 600px)");
 
+  const [formErrors, setFormErrors] = useState({
+    hasCriminalRecord: '',
+    criminalRecordDetails: '',
+    consentGiven: '',
+    date: '',
+  });
+  const validate = (values: typeof formValues) => {
+    const errors: any = {};
+    if (!values.hasCriminalRecord) {
+      errors.hasCriminalRecord = 'Required';
+    }
+    if (values.hasCriminalRecord === 'yes' && !values.criminalRecordDetails) {
+      errors.criminalRecordDetails = 'You must provide details for your criminal record';
+    }
+    if (!values.consentGiven) {
+      errors.consentGiven = 'You must agree to the declarations to proceed';
+    }
+    if (!values.date) {
+      errors.date = 'Date is required';
+    }
+    return errors;
+  };
+
   useEffect(() => {
     Object.entries(formValues).forEach(([key, value]) => {
       // Convert boolean values to strings before saving
@@ -70,10 +93,14 @@ const PersonalDetails: React.FC<PersonalDetailsProps> = ({ onNext }) => {
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = event.target;
-    setFormValues(prevValues => ({
-      ...prevValues,
+    const updatedValues = {
+      ...formValues,
       [name]: type === 'checkbox' ? checked : value,
-    }));
+    };
+    setFormValues(updatedValues);
+
+    // Optionally validate on change
+    setFormErrors(validate(updatedValues));
   };
   // console.log(title)
 
@@ -213,14 +240,15 @@ const PersonalDetails: React.FC<PersonalDetailsProps> = ({ onNext }) => {
   <Typography variant="body1" gutterBottom sx={{ m: "1.5rem", letterSpacing: "0.7px" }}>
     If Hanson Recruitment are completing a new DBS for you, it will be Child and Adult Workforce. Do you need a new DBS or do you have one (child workforce/ child & adult workforce) on the update service?
   </Typography>
-  <FormControlLabel
-    control={<Checkbox checked={formValues.needNewDBS} onChange={handleInputChange} name="needNewDBS" />}
-    label="No, I need a new DBS"
-  />
-  <FormControlLabel
-    control={<Checkbox checked={formValues.haveDBSOnUpdateService} onChange={handleInputChange} name="haveDBSOnUpdateService" />}
-    label="Yes, I already have an enhance child and adult workforce one on the update service"
-  />
+  <RadioGroup
+              name="hasCriminalRecord"
+              value={formValues.hasCriminalRecord}
+              onChange={handleInputChange}
+            >
+              <FormControlLabel value="yes" control={<Radio />} label="Yes, I already have an enhance child and adult workforce one on the update service" />
+              <FormControlLabel value="no" control={<Radio />} label="No, I need a new DBS" />
+            </RadioGroup>
+            {formErrors.hasCriminalRecord && <Typography color="error">{formErrors.hasCriminalRecord}</Typography>}
 
   {/* Submission Button - Removed onClick, using only onSubmit for form submission */}
   <Button 
