@@ -48,46 +48,44 @@ const DigitalSignature: React.FC<DigitalSignatureProps> = ({
       console.log({signatureImage})
 
       const dataToSend = {
-        title: localStorage.getItem("title") || "",
-        firstName: localStorage.getItem("firstName") || "",
-        middleName: localStorage.getItem("middleName") || "",
-        lastName: localStorage.getItem("lastName") || "",
-        knownAs: localStorage.getItem("knownAs") || "",
-        previousNames: localStorage.getItem("previousNames") || "",
-        address: localStorage.getItem("address") || "",
-        postCode: localStorage.getItem("postcode") || "",
-        phoneNumber: localStorage.getItem("phoneNumber") || "",
-        email: localStorage.getItem("yourEmail") || "",
-        dob: localStorage.getItem("dateOfBirth") || "",
-        townofBirth: localStorage.getItem("townOfBirth") || "",
-        nationality: localStorage.getItem("selectedNationality") || "",
-        nationalInsuaranceNumber:
-          localStorage.getItem("nationalInsurance") || "",
-        gender: localStorage.getItem("gender") || "",
-        nextofkinName: localStorage.getItem("nextOfKinName") || "",
-        relationship: localStorage.getItem("relationship") || "",
-        nextofkinaddress: localStorage.getItem("nextofkinaddress") || "",
-        nextofkincontact: localStorage.getItem("contactNumber") || "",
-        qualification: localStorage.getItem("highestQualification") || "",
-        position: "Teaching Assistant",
-        tel: localStorage.getItem("phoneNumber") || "",
-        ReferenceTitle: localStorage.getItem("ReferenceTitle") || "",
-        datesOfemployment: localStorage.getItem("startDate") || "",
-        datesOfemploymentEnd: localStorage.getItem("endDate") || "",
-        ReferenceEmail: localStorage.getItem("ReferenceTitle") || "",
-        criminalRecordDetails: localStorage.getItem("formValues") || "",
-        criminalDetails: localStorage.getItem("criminalRecordDetails") || "",
-        ConsentToCriminalRecords:
-          localStorage.getItem(
-            "I consent to the processing of my application with the provided information."
-          ) || "",
-        healthInfo: localStorage.getItem("healthInfo") || "",
-        HealthDeclarationDate:
-          localStorage.getItem("HealthDeclarationDate") || "",
-        dbs: "dbssss oo",
-        country: "",
-        signature: signatureImage,
-      };
+        "title":localStorage.getItem("title") || "",
+        "firstName":localStorage.getItem("firstName") || "",
+        "middleName":localStorage.getItem("middleName") || "",
+        "lastName":localStorage.getItem("lastName") || "",
+        "knownAs":localStorage.getItem("knownAs") || "",
+        "previousNames":localStorage.getItem("previousNames") || "",
+        "address":localStorage.getItem("address") || "",
+        "postCode":localStorage.getItem("postcode") || "",
+        "phoneNumber":localStorage.getItem("phoneNumber") || "",
+        "email":localStorage.getItem("yourEmail") || "",
+        "dob":localStorage.getItem("dateOfBirth") || "",
+        "townofBirth":localStorage.getItem("townOfBirth") || "",
+        "nationality":localStorage.getItem("selectedNationality") || "",
+        "nationalInsuaranceNumber":localStorage.getItem( "nationalInsurance" )|| "" ,
+        "gender":localStorage.getItem( "gender" )|| "" ,
+        "nextofkinName":localStorage.getItem( "nextOfKinName" )|| "" ,
+        "relationship":localStorage.getItem( "relationship" )|| "" ,
+        "nextofkinaddress":localStorage.getItem( "nextofkinaddress" )|| "" ,
+        "nextofkincontact":localStorage.getItem( "contactNumber" )|| "" ,
+        "qualification":localStorage.getItem( "highestQualification" )|| "" ,
+        "position":"Teaching Assistant",
+        "tel":localStorage.getItem("phoneNumber") || "",
+        "ReferenceTitle" : localStorage.getItem("ReferenceTitle")  || "",
+        "datesOfemployment":localStorage.getItem("startDate") || "",
+        "datesOfemploymentEnd":localStorage.getItem("endDate") || "",       
+        "ReferenceEmail":localStorage.getItem("ReferenceTitle")  || "",
+        "criminalRecordDetails":localStorage.getItem("formValues")  || "",
+        "criminalDetails":localStorage.getItem("criminalRecordDetails")  || "",
+        "ConsentToCriminalRecords":localStorage.getItem("I consent to the processing of my application with the provided information.")  || "",
+        "healthInfo":localStorage.getItem("healthInfo")  || "",
+        "HealthDeclarationDate": localStorage.getItem("HealthDeclarationDate") || "",
+        "dbs":localStorage.getItem("HealthDeclarationDate") || "",
+        "country":"",
+        "signature":localStorage.getItem("signatureImage") || "",
+        
+
+       
+    }
 
       // Use Axios to send the data to your API endpoint
       axios
