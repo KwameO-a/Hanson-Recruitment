@@ -43,53 +43,60 @@ const DigitalSignature: React.FC<DigitalSignatureProps> = ({
       //   // name: 'John Doe',
       //   // date: new Date().toISOString(),
       // };
-
-      console.log(signatureImage)
-      console.log({signatureImage})
+      const { consentGiven, criminalRecordDetails, hasCriminalRecord } =
+        JSON.parse(localStorage.getItem("formValues") || "");
+      // console.log(criminalData);
 
       const dataToSend = {
-        "title":localStorage.getItem("title") || "",
-        "firstName":localStorage.getItem("firstName") || "",
-        "middleName":localStorage.getItem("middleName") || "",
-        "lastName":localStorage.getItem("lastName") || "",
-        "knownAs":localStorage.getItem("knownAs") || "",
-        "previousNames":localStorage.getItem("previousNames") || "",
-        "address":localStorage.getItem("address") || "",
-        "postCode":localStorage.getItem("postcode") || "",
-        "phoneNumber":localStorage.getItem("phoneNumber") || "",
-        "email":localStorage.getItem("yourEmail") || "",
-        "dob":localStorage.getItem("dateOfBirth") || "",
-        "townofBirth":localStorage.getItem("townOfBirth") || "",
-        "nationality":localStorage.getItem("selectedNationality") || "",
-        "nationalInsuaranceNumber":localStorage.getItem( "nationalInsurance" )|| "" ,
-        "gender":localStorage.getItem( "gender" )|| "" ,
-        "nextofkinName":localStorage.getItem( "nextOfKinName" )|| "" ,
-        "relationship":localStorage.getItem( "relationship" )|| "" ,
-        "nextofkinaddress":localStorage.getItem( "nextofkinaddress" )|| "" ,
-        "nextofkincontact":localStorage.getItem( "contactNumber" )|| "" ,
-        "qualification":localStorage.getItem( "highestQualification" )|| "" ,
-        "position":"Teaching Assistant",
-        "tel":localStorage.getItem("phoneNumber") || "",
-        "ReferenceTitle" : localStorage.getItem("ReferenceTitle")  || "",
-        "datesOfemployment":localStorage.getItem("startDate") || "",
-        "datesOfemploymentEnd":localStorage.getItem("endDate") || "",       
-        "ReferenceEmail":localStorage.getItem("ReferenceTitle")  || "",
-        "criminalRecordDetails":localStorage.getItem("formValues")  || "",
-        "criminalDetails":localStorage.getItem("criminalRecordDetails")  || "",
-        "ConsentToCriminalRecords":localStorage.getItem("I consent to the processing of my application with the provided information.")  || "",
-        "healthInfo":localStorage.getItem("healthInfo")  || "",
-        "HealthDeclarationDate": localStorage.getItem("HealthDeclarationDate") || "",
-        "dbs":localStorage.getItem("HealthDeclarationDate") || "",
-        "country":"",
-        "signature":localStorage.getItem("signatureImage") || "",
-        
+        title: localStorage.getItem("title") || "",
+        firstName: localStorage.getItem("firstName") || "",
+        middleName: localStorage.getItem("middleName") || "",
+        lastName: localStorage.getItem("lastName") || "",
+        knownAs: localStorage.getItem("knownAs") || "",
+        previousNames: localStorage.getItem("previousNames") || "",
+        address: localStorage.getItem("address") || "",
+        postCode: localStorage.getItem("postcode") || "",
+        phoneNumber: localStorage.getItem("phoneNumber") || "",
+        email: localStorage.getItem("yourEmail") || "",
+        dob: localStorage.getItem("dateOfBirth") || "",
+        townofBirth: localStorage.getItem("townOfBirth") || "",
+        nationality: localStorage.getItem("selectedNationality") || "",
+        nationalInsuaranceNumber:
+          localStorage.getItem("nationalInsurance") || "",
+        gender: localStorage.getItem("gender") || "",
+        nextofkinName: localStorage.getItem("nextOfKinName") || "",
+        relationship: localStorage.getItem("relationship") || "",
+        nextofkinaddress: localStorage.getItem("nextofkinaddress") || "",
+        nextofkincontact: localStorage.getItem("contactNumber") || "",
+        qualification: localStorage.getItem("highestQualification") || "",
+        position: "Teaching Assistant",
+        tel: localStorage.getItem("phoneNumber") || "",
+        ReferenceTitle: localStorage.getItem("ReferenceTitle") || "",
+        datesOfemployment: localStorage.getItem("startDate") || "",
+        datesOfemploymentEnd: localStorage.getItem("endDate") || "",
+        ReferenceEmail: localStorage.getItem("ReferenceTitle") || "",
 
-       
-    }
+        
+        criminalRecordDetails: criminalRecordDetails,
+        criminalDetails: hasCriminalRecord,
+        ConsentToCriminalRecords:
+          consentGiven === "no"
+            ? ""
+            : "I consent to the processing of my application with the provided information.",
+        // localStorage.getItem(
+        //   "I consent to the processing of my application with the provided information."
+        // ) || "",
+        healthInfo: localStorage.getItem("healthInfo") || "",
+        HealthDeclarationDate:
+          localStorage.getItem("HealthDeclarationDate") || "",
+        dbs: localStorage.getItem("HealthDeclarationDate") || "",
+        country: "",
+        signature: signatureImage,
+      };
 
       // Use Axios to send the data to your API endpoint
       axios
-        .post("http://172.20.10.3:3002/submit-form", dataToSend)
+        .post("http://localhost:3002/submit-form", dataToSend)
         .then((response) => {
           console.log("Data submitted successfully", response.data);
           onSignatureSave(signatureImage);
