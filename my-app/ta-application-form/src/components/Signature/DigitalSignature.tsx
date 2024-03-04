@@ -65,8 +65,7 @@ const DigitalSignature: React.FC<DigitalSignatureProps> = ({ onSignatureSave, on
         "HealthDeclarationDate": localStorage.getItem("HealthDeclarationDate") || "",
         "dbs":localStorage.getItem("HealthDeclarationDate") || "",
         "country":"",
-        "signature":localStorage.getItem("signatureImage") || "",
-        
+        "signature":signatureImage
 
        
     }
