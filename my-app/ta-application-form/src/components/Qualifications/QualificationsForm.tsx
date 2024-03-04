@@ -41,10 +41,38 @@ const QualificationsForm: React.FC<QualificationsFormProps> = ({ onNext, onPrev 
     localStorage.setItem('ReferenceEmail', ReferenceEmail);
   }, [highestQualification, overseasCountries, checkState, forename, surname, Referencetitle, position, company, phoneNumber, startDate, endDate, ReferenceEmail]);
 
+  // type CheckState = {
+  //   [key: string]: boolean;
+  // };
+  
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, checked } = event.target;
-    setCheckState(prevState => ({ ...prevState, [name]: checked }));
+  
+    // Directly initialize the updated state with the expected structure
+    let updatedCheckState = {
+      notRequired: false,
+      required: false,
+    };
+  
+    if(checked) {
+      // Ensure that only the checkbox with the matching name is set to true
+      // This directly adheres to the expected structure of the state
+      updatedCheckState = {
+        notRequired: name === 'notRequired' ? true : false,
+        required: name === 'required' ? true : false,
+      };
+      
+      setCheckState(updatedCheckState);
+    } else {
+      // For unchecking a checkbox, update the state to set the specific checkbox to false
+      // This approach ensures compatibility by directly modifying only the relevant key
+      setCheckState(prevState => ({ ...prevState, [name]: checked }));
+    }
   };
+  
+  
+  
+  
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();

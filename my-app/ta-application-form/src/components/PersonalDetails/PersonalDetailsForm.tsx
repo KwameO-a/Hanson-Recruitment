@@ -125,7 +125,7 @@ const PersonalDetails: React.FC<PersonalDetailsProps> = ({ onNext }) => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const errors = validate(formValues);
+    // const errors = validate(formValues);
     onNext();
     // if (Object.keys(errors).length === 0) {
     //   localStorage.setItem("formValues", JSON.stringify(formValues));

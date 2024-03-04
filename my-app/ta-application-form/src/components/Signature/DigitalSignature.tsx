@@ -96,7 +96,7 @@ const DigitalSignature: React.FC<DigitalSignatureProps> = ({
 
       // Use Axios to send the data to your API endpoint
       axios
-        .post("http://localhost:3002/submit-form", dataToSend)
+        .post("http://10.230.10.196:3002/submit-form", dataToSend)
         .then((response) => {
           console.log("Data submitted successfully", response.data);
           onSignatureSave(signatureImage);
