@@ -20,8 +20,8 @@ function createPDF(formData) {
     doc.end();
     //*/
     let docs = new jsPDF('p', 'mm', 'a4');
-    // let dataobject=formData;
-    let dataobject=testuserData;
+    let dataobject=formData;
+    // let dataobject=testuserData;
     docs.fromHTML(generateUserTable(dataobject), 15, 15, {
         'width': 170,
     });
